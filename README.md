@@ -137,4 +137,4 @@ For questions about the analysis or code, please open an issue in this repositor
 
 ## License
 
-*License information to be added*
+*MIT License*
