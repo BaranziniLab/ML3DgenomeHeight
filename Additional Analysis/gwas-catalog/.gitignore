@@ -1,0 +1,20 @@
+# VCF files and indexes at any directory depth
+**/*.vcf
+**/*.vcf.gz
+**/*.vcf.bgz
+**/*.vcf.gz.tbi
+**/*.vcf.bgz.tbi
+**/*.tbi
+
+# Large data files (>100 MB) — excluded from version control
+gwas-catalog-download-associations-v1.0-full.tsv
+gwas_catalog-ancestry_r2026-02-16.tsv
+
+# Intermediate annotation files
+missing_annotations.tsv
+r_annotations.tsv
+
+# Python virtual environment (managed by uv)
+.venv/
+__pycache__/
+*.pyc

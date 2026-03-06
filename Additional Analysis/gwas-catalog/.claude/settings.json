@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.ebi.ac.uk)",
+      "Read(//Users/wgu/Desktop/ML3DgenomeHeight/Additional Analysis/gwas-catalog/**)",
+      "Bash(uv --version)",
+      "Bash(uv init --no-readme --python 3.12)",
+      "Bash(uv add pandas numpy)",
+      "Bash(uv run make_vcf.py)",
+      "Bash(Rscript validate_vcf.R)",
+      "Bash(awk 'NR==40' gwas_catalog.vcf)",
+      "Bash(uv run annotate_alleles.py)",
+      "Bash(python3 -c \":*)"
+    ]
+  }
+}
