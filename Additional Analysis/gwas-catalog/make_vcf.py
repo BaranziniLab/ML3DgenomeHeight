@@ -102,30 +102,18 @@ ancestry = pd.read_csv(
 ancestry.columns = ancestry.columns.str.strip()
 print(f"  {len(ancestry):,} ancestry rows loaded", file=sys.stderr)
 
-# ── collapse ancestry per (PUBMEDID, STAGE) → one row per study ───────────────
+# ── collapse ancestry per PUBMEDID → one row per study ────────────────────────
 # We want broad ancestral categories (all stages, comma-joined if multiple)
+def _join_unique(s: pd.Series) -> str:
+    return ",".join(sorted(set(s.dropna().tolist())))
+
 ancestry_collapsed = (
     ancestry.groupby("PUBMEDID", dropna=False)
-    .apply(
-        lambda g: pd.Series(
-            {
-                "BROAD_ANCESTRY": ",".join(
-                    sorted(set(g["BROAD ANCESTRAL CATEGORY"].dropna().tolist()))
-                ),
-                "COUNTRY_OF_ORIGIN": ",".join(
-                    sorted(set(g["COUNTRY OF ORIGIN"].dropna().tolist()))
-                ),
-                "STUDY_ACCESSION": ",".join(
-                    sorted(set(g["STUDY ACCESSION"].dropna().tolist()))
-                ),
-                "ADDITIONAL_ANCESTRY": ",".join(
-                    sorted(
-                        set(g["ADDITONAL ANCESTRY DESCRIPTION"].dropna().tolist())
-                    )
-                ),
-            }
-        ),
-        include_groups=False,
+    .agg(
+        BROAD_ANCESTRY=("BROAD ANCESTRAL CATEGORY", _join_unique),
+        COUNTRY_OF_ORIGIN=("COUNTRY OF ORIGIN", _join_unique),
+        STUDY_ACCESSION=("STUDY ACCESSION", _join_unique),
+        ADDITIONAL_ANCESTRY=("ADDITONAL ANCESTRY DESCRIPTION", _join_unique),
     )
     .reset_index()
 )
